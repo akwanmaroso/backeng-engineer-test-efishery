@@ -10,15 +10,18 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/akwanmaroso/backend-efishery-test/core-service/config"
 	"github.com/labstack/echo/v4"
 )
 
 type Api struct {
 	echo *echo.Echo
+	cfg  *config.Config
 }
 
-func NewApi() *Api {
+func NewApi(cfg *config.Config) *Api {
 	return &Api{
+		cfg:  cfg,
 		echo: echo.New(),
 	}
 }

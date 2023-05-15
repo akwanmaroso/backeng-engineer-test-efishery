@@ -27,8 +27,6 @@ func (repo *commodityRepositoryImpl) List(ctx context.Context) ([]models.Commodi
 		return nil, err
 	}
 
-	fmt.Println(req)
-
 	resp, err := repo.client.Do(req)
 	if err != nil {
 		fmt.Println(err)

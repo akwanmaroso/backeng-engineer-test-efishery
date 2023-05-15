@@ -4,14 +4,14 @@ import (
 	"net/http"
 	"time"
 
-	currencyRepository "github.com/akwanmaroso/backend-efishery-test/core-service/internal/currency/repository"
-
 	commodityRepository "github.com/akwanmaroso/backend-efishery-test/core-service/internal/commodity/repository"
 	commodityUsecase "github.com/akwanmaroso/backend-efishery-test/core-service/internal/commodity/usecase"
+	currencyRepository "github.com/akwanmaroso/backend-efishery-test/core-service/internal/currency/repository"
 	"github.com/akwanmaroso/backend-efishery-test/core-service/pkg/cache"
 
 	commodityHttp "github.com/akwanmaroso/backend-efishery-test/core-service/internal/commodity/delivery/http"
 
+	"github.com/akwanmaroso/backend-efishery-test/core-service/middlewares"
 	"github.com/labstack/echo/v4"
 )
 
@@ -28,9 +28,13 @@ func (api *Api) MapHandlers(e *echo.Echo) error {
 	commodityUC := commodityUsecase.NewCommodityUsecase(commodityRepo, currencyRepo, cache)
 	commodityHandler := commodityHttp.NewCommodityHandler(commodityUC)
 
+	middlewareManager := middlewares.NewMiddlewareManager(api.cfg)
+
 	v1 := e.Group("/api/v1")
 	healthRoute := e.Group("/health")
 	commodityRoute := v1.Group("/commodities")
+
+	commodityRoute.Use(middlewareManager.AuthMiddleware)
 
 	commodityHttp.MapCommodityRoutes(commodityRoute, commodityHandler)
 

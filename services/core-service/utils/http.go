@@ -16,3 +16,5 @@ func GetRequestID(c echo.Context) string {
 func GetContextFromRequest(c echo.Context) context.Context {
 	return context.WithValue(c.Request().Context(), ReqIDCtxKey{}, GetRequestID(c))
 }
+
+type UserCtxKey struct{}
