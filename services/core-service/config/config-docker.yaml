@@ -1,0 +1,3 @@
+Port: :5001
+Mode: Development
+JwtSecretKey: abcdefghijklmnopqrstuvwxyz

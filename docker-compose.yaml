@@ -1,0 +1,18 @@
+version: "3"
+services:
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    ports:
+      - 4999:4999
+  core-service:
+    build:
+      context: ./services/core-service
+      dockerfile: Dockerfile
+      args:
+        - GO111MODULE=on
+    environment:
+      - config=docker
+    ports:
+      - 5001:5001

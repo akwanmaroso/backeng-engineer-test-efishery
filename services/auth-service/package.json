@@ -6,6 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
+    "start": "node dist/index.js",
+    "build": "tsc --build",
     "dev:legacy": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "devDependencies": {

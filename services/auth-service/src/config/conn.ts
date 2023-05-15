@@ -5,7 +5,7 @@ const isDev = config.env === "development";
 
 const sequelizeConn = new Sequelize({
   dialect: "sqlite",
-  storage: "../../db.sqlite",
+  storage: "../db.sqlite",
   logging: isDev,
 });
 
