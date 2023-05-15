@@ -12,19 +12,21 @@ export interface UserClaims {
     name: string;
     phoneNumber: string;
     role: string;
+    createdAt: Date;
+    updatedAt: Date;
   };
 }
 
 export default class TokenService {
   private static generateToken = (
-    { id, name, phoneNumber, role }: User,
+    { id, name, phoneNumber, role, createdAt, updatedAt }: User,
     expiresIn: Moment
   ): string => {
     const payload: UserClaims = {
       sub: String(id),
       iat: moment().unix(),
       exp: expiresIn.unix(),
-      user: { id, name, phoneNumber, role },
+      user: { id, name, phoneNumber, role, createdAt, updatedAt },
     };
     return jwt.sign(payload, config.jwt.secret);
   };
@@ -40,6 +42,6 @@ export default class TokenService {
   };
 
   public static decodeToken = (token: string): UserClaims => {
-    return jwt.verify(token, config.jwt.secret) as unknown as UserClaims;
+    return jwt.verify(token, config.jwt.secret) as UserClaims;
   };
 }

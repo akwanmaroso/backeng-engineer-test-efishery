@@ -15,7 +15,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       );
     }
     const decodedToken = TokenService.decodeToken(token);
-    console.log(decodedToken);
+
     // @ts-ignore
     req.userId = decodedToken.sub;
     // @ts-ignore

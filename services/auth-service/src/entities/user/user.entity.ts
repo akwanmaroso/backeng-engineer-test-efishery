@@ -53,6 +53,7 @@ User.init(
     paranoid: true,
     tableName: "users",
     sequelize: sequelizeConn,
+    timestamps: true,
   }
 );
 

@@ -32,9 +32,8 @@ export default class AuthService {
       }
 
       const token = TokenService.generateAuthToken(user);
-      return { ...token, user };
+      return { ...token };
     } catch (err) {
-      console.error(err);
       throw err;
     }
   }
