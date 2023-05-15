@@ -16,6 +16,11 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+const (
+	commodityBaseURL = "https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list"
+	currencyBaseURL  = "https://api.apilayer.com/exchangerates_data"
+)
+
 func (api *Api) MapHandlers(e *echo.Echo) error {
 	httpClient := &http.Client{
 		Timeout: time.Second * 10,
@@ -23,9 +28,9 @@ func (api *Api) MapHandlers(e *echo.Echo) error {
 
 	cache := cache.NewCache()
 
-	currencyRepo := currencyRepository.NewCurrencyRepository(httpClient)
+	currencyRepo := currencyRepository.NewCurrencyRepository(httpClient, currencyBaseURL)
 
-	commodityRepo := commodityRepository.NewCommodityRepository(httpClient)
+	commodityRepo := commodityRepository.NewCommodityRepository(httpClient, commodityBaseURL)
 	commodityUC := commodityUsecase.NewCommodityUsecase(commodityRepo, currencyRepo, cache)
 	commodityHandler := commodityHttp.NewCommodityHandler(commodityUC)
 

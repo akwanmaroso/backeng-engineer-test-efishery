@@ -21,6 +21,7 @@ type commodityUsecaseImpl struct {
 	cache         *cache.Cache
 }
 
+// NewCommodityUsecase ..
 func NewCommodityUsecase(commodityRepo commodity.Repository, currencyRepo currency.Repository, cache *cache.Cache) commodity.UseCase {
 	return &commodityUsecaseImpl{
 		commodityRepo: commodityRepo,

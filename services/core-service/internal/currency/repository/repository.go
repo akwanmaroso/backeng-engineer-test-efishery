@@ -10,21 +10,20 @@ import (
 	"github.com/akwanmaroso/backend-efishery-test/core-service/internal/models"
 )
 
-const BASE_URL = "https://api.apilayer.com/exchangerates_data"
-
 type currencyRepositoryImpl struct {
-	client *http.Client
+	client  *http.Client
+	baseURL string
 }
 
 // NewCurrencyRepository ...
-func NewCurrencyRepository(httpClient *http.Client) currency.Repository {
-	return &currencyRepositoryImpl{client: httpClient}
+func NewCurrencyRepository(httpClient *http.Client, baseURL string) currency.Repository {
+	return &currencyRepositoryImpl{client: httpClient, baseURL: baseURL}
 }
 
 func (repo *currencyRepositoryImpl) GetCurrencyUSDToIDR(ctx context.Context) (models.Currency, error) {
 	var convertedCurrency models.Currency
 
-	uri := fmt.Sprintf("%s/latest?symbols=IDR&base=USD", BASE_URL)
+	uri := fmt.Sprintf("%s/latest?symbols=IDR&base=USD", repo.baseURL)
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, uri, nil)
 	req.Header.Set("apiKey", "X26IJdrfDFLnD8NszOASpB3YFUN9BtHJ")
 	if err != nil {
