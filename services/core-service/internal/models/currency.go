@@ -1,11 +1,5 @@
 package models
 
-// type Currency struct {
-// 	Rate   float64 `json:"rate"`
-// 	Amount float64 `json:"amount"`
-// 	Result float64 `json:"result"`
-// }
-
 type BaseCurrencyResponse struct {
 	Date string `json:"date"`
 	Info struct {
@@ -28,7 +22,3 @@ type Currency struct {
 		IDR float64
 	}
 }
-
-// type CurrenyRequest struct {
-// 	Amount float64 `json:"amount"`
-// }

@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func ExtractJWTFromRequest(e echo.Context, key string) (*models.UserClaims, error) {
+func ExtractJWTFromRequest(e echo.Context, key string) (*models.User, error) {
 	tokenStr, err := extractBearerToken(e)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func ExtractJWTFromRequest(e echo.Context, key string) (*models.UserClaims, erro
 	return userClaims, nil
 }
 
-func convertToUserClaims(claims map[string]interface{}) (*models.UserClaims, error) {
+func convertToUserClaims(claims map[string]interface{}) (*models.User, error) {
 	var userClaims models.UserClaims
 	tokenByte, err := json.Marshal(claims)
 	if err != nil {
@@ -53,7 +53,7 @@ func convertToUserClaims(claims map[string]interface{}) (*models.UserClaims, err
 		return nil, err
 	}
 
-	return &userClaims, nil
+	return &userClaims.User, nil
 }
 
 func extractBearerToken(e echo.Context) (string, error) {

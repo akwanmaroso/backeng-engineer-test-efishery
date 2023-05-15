@@ -36,7 +36,7 @@ func (api *Api) MapHandlers(e *echo.Echo) error {
 
 	commodityRoute.Use(middlewareManager.AuthMiddleware)
 
-	commodityHttp.MapCommodityRoutes(commodityRoute, commodityHandler)
+	commodityHttp.MapCommodityRoutes(commodityRoute, commodityHandler, *middlewareManager)
 
 	healthRoute.GET("", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "Ok"})
