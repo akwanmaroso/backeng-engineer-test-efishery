@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: Commodity API - OpenAPI 3.0
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:5001/api/v1
+    description: Core Service
+  - url: http://localhost:4999/api/v1
+    description: Auth Service
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Get access token for access to system
+      description: Get access token for access to system
+      requestBody:
+        description: Get access token for access to system
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                  example: 0823456566
+                password:
+                  type: string
+                  example: iP4w
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjg0MTI5MDUxLCJleHAiOjE2ODQxMzk4NTEsInVzZXIiOnsiaWQiOjIsIm5hbWUiOiJkb2RpdCIsInBob25lTnVtYmVyIjoiMDgyMzQ1NjU2NiIsInJvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDUtMTVUMDU6MzE6MDEuMDk0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDUtMTVUMDU6MzE6MDEuMDk0WiJ9fQ.23XOpq7sQhG0GRbm2UI6nFTigraxkH_C1wHL4_Df8s4"
+                      expires:
+                        type: string
+                        example: "2023-05-15T08:37:31.516Z"
+                  success:
+                    type: boolean
+                    example: true
+        "403":
+          description: Invalid input
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register new user
+      description: Register new user
+      requestBody:
+        description: Register new user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: JohnDoe
+                phoneNumber:
+                  type: string
+                  example: 0823456566
+                password:
+                  type: string
+                  example: iP4w
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/User"
+                  success:
+                    type: boolean
+                    example: true
+        "403":
+          description: Invalid input
+  /auth/current:
+    get:
+      tags:
+        - auth
+      summary: Get Current User
+      description: Get Current User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/User"
+                  success:
+                    type: boolean
+                    example: true
+  /commodities:
+    get:
+      tags:
+        - Commodity
+      summary: Get List Commodity
+      description: Get List Commodity
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Commodity"
+  /commodities/aggregate:
+    get:
+      tags:
+        - Commodity
+      summary: Get Aggregation Commodity based Province and Date
+      description: Get Aggregation Commodity based Province and Date
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AggregateCommodity"
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: JohnDoe
+        phoneNumber:
+          type: string
+          example: 082345354
+        role:
+          type: string
+          example: admin
+        createdAt:
+          type: string
+          example: "2023-05-15T05:31:01.094Z"
+        updatedAt:
+          type: string
+          example: "2023-05-15T05:31:01.094Z"
+    Commodity:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: "d992453e-c26e-48d6-bedc-92bc55f8585e"
+        komoditas:
+          type: string
+          example: "BANDENG"
+        area_provinsi:
+          type: string
+          example: "SULAWESI BARAT"
+        area_kota:
+          type: string
+          example: "MAMUJU UTARA"
+        size:
+          type: string
+          example: 180
+        price:
+          type: string
+          example: 29000
+        price_usd:
+          type: string
+          example: 1.96
+        tgl_parsed:
+          type: string
+          example: "2022-01-01T19:08:13Z"
+        timestamp:
+          type: string
+          example: "1641064093344"
+    AggregateCommodity:
+      type: object
+      properties:
+        area:
+          type: string
+          example: "JAWA TIMUR"
+        start_of_week_date:
+          type: string
+          example: "2022-01-11"
+        aggregate:
+          type: object
+          properties:
+            price:
+              type: object
+              properties:
+                min:
+                  type: number
+                  example: 11000
+                max:
+                  type: number
+                  example: 11000
+                avg:
+                  type: number
+                  example: 11000
+                median:
+                  type: number
+                  example: 11000
+            size:
+              type: object
+              properties:
+                min:
+                  type: number
+                  example: 100
+                max:
+                  type: number
+                  example: 100
+                avg:
+                  type: number
+                  example: 100
+                median:
+                  type: number
+                  example: 100
+            count:
+              type: number
+              example: 1
