@@ -42,6 +42,14 @@ To stop the application and remove the Docker containers, use the following comm
 
 This will stop and remove the containers, but your data will be preserved.
 
+## Architecture System With C4 Model
+
+1. System Context Diagram
+   ![System Context Diagram](img/1.png)
+
+2. Deployment Diagram
+   ![Deployment Diagram](img/2.png)
+
 ## Contributing
 
 Contributions are welcome! If you encounter any issues
