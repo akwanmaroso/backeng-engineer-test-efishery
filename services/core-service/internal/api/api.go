@@ -35,7 +35,7 @@ func (api *Api) Run() error {
 	}
 
 	srv := &http.Server{
-		Addr:         api.getPort(),
+		Addr:         api.cfg.Port,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}
@@ -61,15 +61,4 @@ func (api *Api) Run() error {
 	}
 
 	return nil
-}
-
-func (api *Api) getPort() string {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = ":4000"
-	} else {
-		port = fmt.Sprintf(":%s", port)
-	}
-
-	return port
 }
