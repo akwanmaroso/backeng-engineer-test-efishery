@@ -13,6 +13,7 @@ import (
 
 	"github.com/akwanmaroso/backend-efishery-test/core-service/middlewares"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func (api *Api) MapHandlers(e *echo.Echo) error {
@@ -29,6 +30,11 @@ func (api *Api) MapHandlers(e *echo.Echo) error {
 	commodityHandler := commodityHttp.NewCommodityHandler(commodityUC)
 
 	middlewareManager := middlewares.NewMiddlewareManager(api.cfg)
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+	}))
 
 	v1 := e.Group("/api/v1")
 	healthRoute := e.Group("/health")
