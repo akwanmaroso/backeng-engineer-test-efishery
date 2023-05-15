@@ -11,8 +11,8 @@
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/my-program.git
-   cd my-program
+   git clone git@github.com:akwanmaroso/backeng-engineer-test-efishery.git
+   cd backeng-engineer-test-efishery
    ```
 
 2. Set up the environment variables:
